@@ -33,7 +33,7 @@
 # * <http://en.wikipedia.org/wiki/Reverse_Polish_notation>
 # * <http://www.calculator.org/rpn.aspx>
 #
-require "rpn_calculator"
+require "rpn_calculator3"
 
 describe RPNCalculator do
 
@@ -95,7 +95,9 @@ describe RPNCalculator do
     calculator.push(3)
     calculator.times
     expect(calculator.value).to eq((1+2)*3)
-
+  end
+   it "resolves operator precedence unambiguously" do
+    # 1 2 + 3 * => (1 + 2) * 3
     # 1 2 3 * + => 1 + (2 * 3)
     calculator.push(1)
     calculator.push(2)
@@ -127,7 +129,7 @@ describe RPNCalculator do
   it "tokenizes a string" do
     expect(calculator.tokens("1 2 3 * + 4 5 - /")).to eq([1, 2, 3, :*, :+, 4, 5, :-, :/])
   end
-
+2122222222
   # extra credit
   it "evaluates a string" do
     expect(calculator.evaluate("1 2 3 * +")).to eq((2 * 3) + 1)
@@ -140,3 +142,15 @@ describe RPNCalculator do
   end
 
 end
+
+
+
+ def stackcheck
+  if @stack.length >= 2 
+     @stack.pop(2)
+  elsif @value != nil && stack.length >=1
+      [@value, stack.pop]
+  else
+    raise "calculator is empty"
+  end
+ end   
