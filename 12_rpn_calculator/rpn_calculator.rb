@@ -56,6 +56,8 @@ def tokens(string)
   temp.flatten
 end 
   
+
+##These definitely need refactoring. Move to symbols instead of text call.   
 def evaluate(string)
     signs = ['+','-','*','/']
     hsigns = {'+' => :plus,'-' => :minus,'*' => :times,'/' => :divide}
