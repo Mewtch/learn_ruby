@@ -25,26 +25,59 @@ class RPNCalculator
   @stack << @value = val[0]+val[1]
   @value
  end
+  alias :+ plus
  
  def minus
   val = stackcheck    
   @stack << @value = val[0]-val[1]
   @value
  end
+ alias :- minus
  
  def divide
   val = stackcheck    
   @stack << @value = val[0]/val[1].to_f
   @value
  end
+ alias :/ divide
  
  def times
   val = stackcheck 
   @stack << @value = val[0]*val[1].to_f
   @value
  end
+ alias :* times
 
 def tokens(string)
+   signs = ['+','-','*','/']
+   hsigns = {'+' => :+,'-' => :-,'*' => :*,'/' => :/}
+   temp = []
+   arr = string.gsub!(/\s/,'').split(/(\d*\D*)/).each do |x|
+     if x.size > 1
+       temp << x.chars.map{|s| (signs.include? s) ? s=hsigns[s] : s=s.to_i  }
+     end
+    end
+   temp
+ end 
+  
+
+##These definitely need refactoring. Move to symbols instead of text call.   
+ def evaluate(string)
+    tokens(string).each do |arr|
+      numbers,operators = arr.partition{|i| i.is_a?(Integer)}
+      numbers.each {|num| self.push(num)}
+      operators.each {|s| self.send(s)}
+    end
+    self.value
+  end
+ end
+ 
+end
+
+
+######COPY, ORIGINAL METHODS, need refactor#############
+=begin
+  def tokens(string)
   signs = ['+','-','*','/']
   hsigns = {'+' => :+,'-' => :-,'*' => :*,'/' => :/}
   temp = []
@@ -77,3 +110,5 @@ def evaluate(string)
    self.value
   end
 end
+
+=end
